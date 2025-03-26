@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DONISHFAZO - Языковой центр</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2A2A2A;
+            --secondary: #E74C3C;
+            --accent: #27AE60;
+            --light: #FDFEFE;
+            --dark: #1B1B1B;
+            --gradient: linear-gradient(135deg, #E74C3C 0%, #27AE60 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.8;
+            /* Добавляем нижний отступ, чтобы контент не закрывался навигацией */
+            padding-bottom: 70px;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        h1 { font-size: 2.8rem; }
+        h2 { font-size: 2.2rem; color: var(--secondary); }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        
+        .header {
+            background: var(--gradient);
+            padding: 6rem 2rem;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        
+        .page {
+            display: none;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            animation: fadeIn 0.5s;
+        }
+        
+        .active-page {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .motivation-box {
+            background: rgba(39,174,96,0.1);
+            border: 3px solid var(--accent);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .motivation-box::before {
+            content: "★";
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.1;
+            top: -3rem;
+            left: -2rem;
+            color: var(--accent);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-card {
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .service-card {
+            padding: 2rem;
+            background: white;
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-list {
+            list-style: none;
+            padding: 1rem 0;
+        }
+        
+        .service-list li {
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-weight: 600;
+        }
+        
+        .service-list li::before {
+            content: "•";
+            color: var(--secondary);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+        }
+        
+        .price-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+        }
+        
+        .price-table th {
+            background: var(--secondary);
+            color: white;
+            padding: 1.2rem;
+            text-align: left;
+        }
+        
+        .price-table td {
+            padding: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .price-table tr:nth-child(even) {
+            background: rgba(39,174,96,0.05);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+        }
+        
+        /* Стили для нижней навигации */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+            z-index: 1000;
+        }
+        
+        .bottom-nav .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .bottom-nav .nav-link:hover {
+            color: var(--secondary);
+            transform: translateY(-2px);
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <div class="header">
+        <h1 style="color: white;">DONISHFAZO</h1>
+        <p style="color: white; font-size: 1.4rem;">Международный центр языкового мастерства</p>
+    </div>
+    
+    <!-- Страницы сайта -->
+    <div id="home" class="page active-page">
+        <div class="motivation-box">
+            <h2 style="color: var(--secondary); margin-bottom: 1.5rem;">🚀 Языки открывают мир!</h2>
+            <p style="font-size: 1.2rem; line-height: 1.8;">
+                "Знание иностранного языка - это не просто слова, это ключ к новым возможностям!<br>
+                Учитесь у лучших преподавателей и получите:
+            </p>
+            <ul class="service-list">
+                <li>Карьерный рост в международных компаниях</li>
+                <li>Свободу путешествий без языковых барьеров</li>
+                <li>Доступ к мировым образовательным ресурсам</li>
+                <li>Уверенность в общении с иностранными партнерами</li>
+            </ul>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>10+ лет</h3>
+                <p>Успешной работы</p>
+            </div>
+            <div class="stat-card">
+                <h3>200+</h3>
+                <p>Довольных студентов</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="services" class="page">
+        <h2>Наши услуги и цены</h2>
+        
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>Языковые курсы</h3>
+                <ul class="service-list">
+                    <li>Английский</li>
+                    <li>Русский</li>
+                    <li>Китайский</li>
+                    <li>Немецкий</li>
+                    <li>Таджикский</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>Стоимость обучения</h3>
+                <table class="price-table">
+                    <tr>
+                        <th>Уровень</th>
+                        <th>Стоимость</th>
+                    </tr>
+                    <tr><td>A1 (Начальный)</td><td>200 сомони</td></tr>
+                    <tr><td>A2 (Базовый)</td><td>220 сомони</td></tr>
+                    <tr><td>B1 (Средний)</td><td>270 сомони</td></tr>
+                    <tr><td>B2 (Продвинутый)</td><td>300 сомони</td></tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="service-card" style="margin-top: 2rem;">
+            <h3>Дополнительные услуги</h3>
+            <ul class="service-list">
+                <li>Подготовка к международным экзаменам </li>
+                <li>Оформление визовых документов </li>
+                <li>Поддержка при поступлении за рубеж </li>
+                <li>Перевод документов </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="about" class="page">
+        <h2>О нашем центре</h2>
+        <div style="margin: 2rem 0;">
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                Основанный в 2023 году, наш центр быстро стал лидером в сфере языкового образования. 
+                Мы сочетаем современные методики обучения с индивидуальным подходом к каждому студенту.
+            </p>
+            
+            <h3 style="margin: 2rem 0 1rem;">Наши преимущества</h3>
+            <ul class="service-list">
+                <li>Опытные преподаватели-носители языка</li>
+                <li>Современные учебные материалы</li>
+                <li>98% успешной сдачи экзаменов</li>
+                <li>Гибкий график занятий</li>
+            </ul>
+            
+            <h3 style="margin: 3rem 0 1rem;">Наша команда</h3>
+            <div class="team-grid">
+                <div class="team-card">
+                    <h4>Азизова Гулнора</h4>
+                    <p>Основатель и руководитель</p>
+                    <p>Опыт: 10+ лет</p>
+                </div>
+                <div class="team-card">
+                    <h4>Ходжибобо Ходжибоев</h4>
+                    <p>Преподаватель немецкого</p>
+                    <p>Опыт: 5+ лет</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="contacts" class="page">
+        <h2>Свяжитесь с нами</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <i class="fab fa-instagram fa-3x" style="color: #E1306C;"></i>
+                <h4>Instagram</h4>
+                <p>@donishfazo.tj</p>
+                <a href="https://instagram.com/donishfazo.tj" target="_blank" style="color: var(--secondary); text-decoration: none;">
+                    Перейти
+                </a>
+            </div>
+            <div class="contact-card">
+                <i class="fab fa-whatsapp fa-3x" style="color: #25D366;"></i>
+                <h4>WhatsApp</h4>
+                <p>+992 112 055 000</p>
+                <a href="https://wa.me/992112055000" target="_blank" style="color: var(--secondary); text-decoration: none;">
+                    Написать
+                </a>
+            </div>
+            <div class="contact-card">
+                <i class="fab fa-telegram fa-3x" style="color: #0088cc;"></i>
+                <h4>Telegram</h4>
+                <p>+992 112 055 000</p>
+                <a href="https://t.me/992112055000" target="_blank" style="color: var(--secondary); text-decoration: none;">
+                    Написать
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Нижняя навигация -->
+    <nav class="bottom-nav">
+        <a class="nav-link" onclick="showPage('home')">
+            <i class="fas fa-home"></i>
+        </a>
+        <a class="nav-link" onclick="showPage('services')">
+            <i class="fas fa-concierge-bell"></i>
+        </a>
+        <a class="nav-link" onclick="showPage('contacts')">
+            <i class="fas fa-phone-alt"></i>
+        </a>
+        <a class="nav-link" onclick="showPage('about')">
+            <i class="fas fa-info-circle"></i>
+        </a>
+    </nav>
+    
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(function(page) {
+                page.classList.remove('active-page');
+            });
+            document.getElementById(pageId).classList.add('active-page');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        // Изначально отображаем главную страницу
+        showPage('home');
+    </script>
+</body>
+</html>
