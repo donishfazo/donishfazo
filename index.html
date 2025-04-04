@@ -411,5 +411,61 @@
         // Изначально отображаем главную страницу
         showPage('home');
     </script>
+
+<!-- Модальное окно регистрации -->
+<div id="registerModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 500px; width: 90%;">
+    <h2 style="color: #E74C3C; margin-bottom: 1.5rem;">📝 Записаться на курс</h2>
+    <form id="registerForm">
+      <input type="text" name="name" placeholder="Ваше имя" required style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #ddd; border-radius: 5px;">
+      <input type="tel" name="phone" placeholder="Номер телефона" required style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #ddd; border-radius: 5px;">
+      <input type="email" name="email" placeholder="Email (необязательно)" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #ddd; border-radius: 5px;">
+      <select name="course" required style="width: 100%; padding: 0.8rem; margin-bottom: 1.5rem; border: 2px solid #ddd; border-radius: 5px;">
+        <option value="" disabled selected>Выберите курс</option>
+        <option value="Английский">Английский</option>
+        <option value="Русский">Русский</option>
+        <option value="Китайский">Китайский</option>
+        <option value="Немецкий">Немецкий</option>
+      </select>
+      <button type="submit" style="background: #27AE60; color: white; border: none; padding: 1rem 2rem; border-radius: 5px; cursor: pointer; font-weight: bold;">Отправить</button>
+    </form>
+    <button onclick="document.getElementById('registerModal').style.display = 'none'" style="margin-top: 1rem; background: #E74C3C; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Закрыть</button>
+  </div>
+</div>
+
+<!-- Кнопка "Записаться" -->
+<button onclick="document.getElementById('registerModal').style.display = 'flex'" style="position: fixed; top: 20px; right: 20px; background: #27AE60; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 30px; cursor: pointer; z-index: 1000; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
+  <i class="fas fa-pencil-alt"></i> Записаться
+</button>
+
+<script>
+  // Отправка формы
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        alert('✅ Спасибо! Мы скоро свяжемся с вами.');
+        document.getElementById('registerModal').style.display = 'none';
+      } else {
+        alert('❌ Ошибка: ' + (result.error || 'Попробуйте позже'));
+      }
+    } catch (err) {
+      alert('❌ Ошибка соединения с сервером');
+      console.error(err);
+    }
+  });
+</script>
 </body>
 </html>
